@@ -1,20 +1,18 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
 
 namespace RESTbookStatusCodes
 {
     public class Startup
     {
+        private const string AllowGetPut = "allowGetPut";
+        private const string AllowAnythingFromZealand = "allowAnythingFromZealand";
+        private const string AllowAnything = "allowAnything";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,11 +23,31 @@ namespace RESTbookStatusCodes
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowAnythingFromZealand,
+                    builder =>
+                        builder.WithOrigins("http://zealand.dk")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod());
+                options.AddPolicy(AllowGetPut,
+                    builder =>
+                        builder.AllowAnyOrigin()
+                            .WithMethods("GET", "PUT")
+                            .AllowAnyHeader());
+                options.AddPolicy(AllowAnything, // similar to * in Azure
+                    builder =>
+                        builder.AllowAnyOrigin()
+                            .AllowAnyMethod()
+                            .AllowAnyHeader());
+            });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Items API", Version = "v1.0" });
             });
+
 
         }
 
@@ -43,6 +61,8 @@ namespace RESTbookStatusCodes
 
             app.UseRouting();
 
+            app.UseCors(AllowAnything);
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -55,7 +75,6 @@ namespace RESTbookStatusCodes
             app.UseSwaggerUI(c =>
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Items API v1.0")
             );
-
         }
     }
 }
