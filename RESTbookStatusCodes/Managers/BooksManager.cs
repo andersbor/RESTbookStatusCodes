@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using RESTbookStatusCodes.Models;
+using static RESTbookStatusCodes.Models.Book;
 
 namespace RESTbookStatusCodes.Managers
 {
@@ -50,6 +51,7 @@ namespace RESTbookStatusCodes.Managers
 
         public Book Add(Book newBook)
         {
+            ValidateBook(newBook); // using static ...
             newBook.Id = _nextId++;
             Data.Add(newBook);
             return newBook;
@@ -65,6 +67,7 @@ namespace RESTbookStatusCodes.Managers
 
         public Book Update(int id, Book updates)
         {
+            ValidateBook(updates);
             Book book = Data.Find(book1 => book1.Id == id);
             if (book == null) return null;
             book.Title = updates.Title;
