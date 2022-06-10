@@ -13,8 +13,6 @@ namespace RESTbookStatusCodes.Controllers
     {
         private readonly BooksManager _manager = new BooksManager();
 
-        
-
         // GET: api/<BooksController>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]

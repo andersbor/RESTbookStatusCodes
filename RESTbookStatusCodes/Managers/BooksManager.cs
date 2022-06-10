@@ -32,13 +32,18 @@ namespace RESTbookStatusCodes.Managers
             {
                 switch (sortBy.ToLower())
                 {
+                    case "id":
+                        books = books.OrderBy(book => book.Id).ToList();
+                        break;
                     case "title":
                         books = books.OrderBy(book => book.Title).ToList();
                         break;
-                    case "price":
+                    case "priceasc":
                         books = books.OrderBy(book => book.Price).ToList();
                         break;
-                        // skip any other properties in the query string
+                    case "pricedesc":
+                        books = books.OrderByDescending(book => book.Price).ToList();
+                        break;
                 }
             }
             return books;
