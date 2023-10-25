@@ -12,7 +12,8 @@ namespace RESTbookStatusCodes.Repositories
         {
             new Book {Id = _nextId++, Title = "C# is nice", Price = 12.34},
             new Book {Id=_nextId++, Title = "C# advanced", Price = 22.33},
-            new Book {Id = _nextId++, Title = "ABC for beginners", Price= 19.95}
+            new Book {Id = _nextId++, Title = "ABC for beginners", Price= 19.95},
+            new Book {Id=_nextId++, Title="DEF advanced", Price=17.56}
             // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/object-and-collection-initializers
         };
 
@@ -56,7 +57,7 @@ namespace RESTbookStatusCodes.Repositories
 
         public Book Add(Book newBook)
         {
-            ValidateBook(newBook); // using static ...
+            newBook.Validate(); 
             newBook.Id = _nextId++;
             Data.Add(newBook);
             return newBook;
@@ -72,7 +73,7 @@ namespace RESTbookStatusCodes.Repositories
 
         public Book Update(int id, Book updates)
         {
-            ValidateBook(updates);
+            updates.Validate();
             Book book = Data.Find(book1 => book1.Id == id);
             if (book == null) return null;
             book.Title = updates.Title;

@@ -10,14 +10,16 @@ namespace RESTbookStatusCodes.Models
 
         public double Price { get; set; }
 
-        public static void ValidateBook(Book book)
+        public void Validate()
         {
-            if (book.Title == null)
-                throw new ArgumentNullException(nameof(book.Title), "Title is null");
-            if (book.Title.Length < 2)
-                throw new ArgumentException("Title must be at least 2 characters: " + book.Title);
-            if (book.Price < 0)
-                throw new ArgumentOutOfRangeException(nameof(book.Price), "Price must be non-negative: " + book.Price);
+            {
+                if (Title == null)
+                    throw new ArgumentNullException(nameof(Title), "Title is null");
+                if (Title.Length < 2)
+                    throw new ArgumentException("Title must be at least 2 characters: " + Title);
+                if (Price < 0)
+                    throw new ArgumentOutOfRangeException(nameof(Price), "Price must be non-negative: " + Price);
+            }
         }
     }
 }
