@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using RESTbookStatusCodes.Managers;
+using RESTbookStatusCodes.Repositories;
 using RESTbookStatusCodes.Models;
 
 namespace RESTbookStatusCodes.Controllers
@@ -11,7 +11,7 @@ namespace RESTbookStatusCodes.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly BooksManager _manager = new BooksManager();
+        private readonly BooksRepository _manager = new BooksRepository();
 
         // GET: api/<BooksController>
         [HttpGet]

@@ -3,12 +3,12 @@ using System.Linq;
 using RESTbookStatusCodes.Models;
 using static RESTbookStatusCodes.Models.Book;
 
-namespace RESTbookStatusCodes.Managers
+namespace RESTbookStatusCodes.Repositories
 {
-    public class BooksManager
+    public class BooksRepository
     {
         private static int _nextId = 1;
-        private static readonly List<Book> Data = new List<Book>
+        private static readonly List<Book> Data = new()
         {
             new Book {Id = _nextId++, Title = "C# is nice", Price = 12.34},
             new Book {Id=_nextId++, Title = "C# advanced", Price = 22.33},
@@ -20,7 +20,7 @@ namespace RESTbookStatusCodes.Managers
         // Optional parameters
         // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/named-and-optional-arguments
         {
-            List<Book> books = new List<Book>(Data);
+            List<Book> books = new(Data);
             // copy constructor
             // Callers should no get a reference to the Data object, but rather get a copy
 
