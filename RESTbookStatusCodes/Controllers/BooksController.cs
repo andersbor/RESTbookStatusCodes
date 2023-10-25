@@ -11,14 +11,14 @@ namespace RESTbookStatusCodes.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly BooksRepository _manager = new BooksRepository();
+        private readonly BooksRepository _repo = new BooksRepository();
 
         // GET: api/<BooksController>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IEnumerable<Book> Get([FromQuery] string title, [FromQuery] string sort_by)
         {
-            return _manager.GetAll(title, sort_by);
+            return _repo.GetAll(title, sort_by);
         }
 
         // GET api/<BooksController>/5
@@ -27,7 +27,7 @@ namespace RESTbookStatusCodes.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Book> Get(int id)
         {
-            Book book = _manager.GetById(id);
+            Book book = _repo.GetById(id);
             if (book == null) return NotFound("No such book, id: " + id);
             return Ok(book);
         }
@@ -40,7 +40,7 @@ namespace RESTbookStatusCodes.Controllers
         {
             try
             {
-                Book newBook = _manager.Add(value);
+                Book newBook = _repo.Add(value);
                 string uri = Url.RouteUrl(RouteData.Values) + "/" + newBook.Id;
                 return Created(uri, newBook);
             }
@@ -59,7 +59,7 @@ namespace RESTbookStatusCodes.Controllers
         {
             try
             {
-                Book updatedBook = _manager.Update(id, value);
+                Book updatedBook = _repo.Update(id, value);
                 if (updatedBook == null) return NotFound("No such book, id: " + id);
                 return Ok(updatedBook);
             }
@@ -75,7 +75,7 @@ namespace RESTbookStatusCodes.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<Book> Delete(int id)
         {
-            Book deletedBook = _manager.Delete(id);
+            Book deletedBook = _repo.Delete(id);
             if (deletedBook == null) return NotFound("No such book, id: " + id);
             return Ok(deletedBook);
         }
